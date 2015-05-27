@@ -15,21 +15,25 @@ require_once('connectvars.php');
 require_once('functions.php');
 
 $user_search = $_GET['usersearch'];
-$user_search = str_replace(',', ' ', $user_search);
-$user_search_array = explode(' ', $user_search);
-$search_words = array();
-foreach ($user_search_array as $word) {
-	if (!empty($word)) {
-		$search_words[] = "WHERE description LIKE '%$word%'";
+$user_search = str_replace(',', ' ', $user_search); // Заменяем запятые на пробелы
+$where_list  = explode(' ', $user_search); // Делаем массив из строки
+$where_list_description = array(); // Новый массив куда будем добавлять части запроса с description
+$final_search = ''; // Финальная строка, которую мы добавим к первоначальному запросу
+foreach ($where_list as $word) { 
+	if (!empty($word)) { // Пустые строки не добавляем, иначе поиск выдаст все результаты
+	$where_list_description[] = "description LIKE '%$word%'";
 	}
 }
-$search_words = implode(' or ', $search_words);
+$final_search = implode(' OR ', $where_list_description); // Объединяем массив в финальную строку
 
 $dbc = mysqli_connect(DB_HOST, DB_USER, DB_PASSWORD, DB_NAME);
+$general_query = "SELECT title, description, state, date_posted FROM riskyjobs"; // Первоначальный запрос
 
-$query = "SELECT * FROM riskyjobs ";
+if (!empty($final_search)) {
+	$general_query .= " WHERE $final_search"; // Финальный запрос
+}
 
-$result = mysqli_query($dbc, $query);
+$result = mysqli_query($dbc, $general_query);
 
 echo '<table border="0" cellpadding="2">';
 echo '<tr class="heading"><td>Работа</td><td>Описание</td><td>Штат</td><td>Дата</td></tr>';
