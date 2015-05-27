@@ -10,7 +10,7 @@ require_once('connectvars.php');
 if (!isset($_SESSION['user_id'])) {
     echo '<p class="login"><a href="login.php">Залогинтесь</a>, чтобы получить доступ к этой странице</p>';
     exit();
-  }
+ }
 
 require_once('navmenu.php');
 

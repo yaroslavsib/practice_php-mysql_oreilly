@@ -24,8 +24,8 @@ require_once('navmenu.php');
   	foreach ($_POST as $key => $value) {
   		$$key = mysqli_real_escape_string($dbc, trim($value));
   	}
-  	$old_picture = mysqli_real_escape_string($dbc, trim($_POST['old_picture']));
-    $new_picture = mysqli_real_escape_string($dbc, trim($_FILES['new_picture']['name']));
+  	$old_picture      = mysqli_real_escape_string($dbc, trim($_POST['old_picture']));
+    $new_picture      = mysqli_real_escape_string($dbc, trim($_FILES['new_picture']['name']));
     $new_picture_type = $_FILES['new_picture']['type'];
     $new_picture_size = $_FILES['new_picture']['size'];
     list($new_picture_width, $new_picture_height) = getimagesize($_FILES['new_picture']['tmp_name']);

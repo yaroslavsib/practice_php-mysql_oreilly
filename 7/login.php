@@ -14,12 +14,12 @@
 
       if (!empty($user_username) && !empty($user_password)) {
         $query = "SELECT user_id, username FROM mismatch_user WHERE username = '$user_username' AND password = SHA('$user_password')";
-        $data = mysqli_query($dbc, $query);
+        $data  = mysqli_query($dbc, $query);
 
         if (mysqli_num_rows($data) == 1) {
           // Такая запись есть в БД, значит логирование проведено успешно
           $row = mysqli_fetch_array($data);
-          $_SESSION['user_id'] = $row['user_id'];
+          $_SESSION['user_id']  = $row['user_id'];
           $_SESSION['username'] = $row['username'];
           setcookie('user_id', $row['user_id'], time() + (60 * 60 * 24 * 30));
           setcookie('username', $row['username'], time() + (60 * 60 * 24 * 30));
